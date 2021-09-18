@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Candy Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">  
+    <link rel=icon href="assets/favicon.ico">
+    <!-- D3 is required for the candy generator -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+
+    <div class="top-right">
+        <a href="https://github.com/vsoch/candy-gen" target="_blank">
+           <i style='color:white'class="fa fa-2x fa-github"></i></a>
+    </div>
+    <div class="container-wide" style="padding:30px" id="app">
+      <h1>Happy Open Source Halloween!</h1>
+      <div class="row" style="padding-top:100px">
+        <div class="col-md-3">
+          <div id="menu">
+            <div id="scoreboard">
+                <!-- Candy selector -->
+                <div class="form-group">
+                  <label>Candy Form</label>
+                  <select style="width: 200px; margin-left: 25px;" class="form-control" id="candy-form"></select>
+                </div>
+                <hr> 
+                              
+                <!-- Color chooser -->
+                <input type="color" id="candy-color" name="candy-color" value="#e66465">
+                <label for="head">Candy Color</label>
+            </div>
+            <button class="cardFunction" id="resetCandy">RESET</button>
+
+            <div style="color:white; padding-top:30px;">Customize your Candy!</div>
+            <div id="selectList" style="width:200px; padding-bottom:30px"></div>
+          </div>
+     </div>
+     <div class="col-md-9">
+        <div id="candy"></div>
+     </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+<script src="assets/js/candygen.js"></script>
+<script src="assets/js/index.js"></script>
