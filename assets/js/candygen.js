@@ -399,7 +399,7 @@ class CandyGen {
           var logo = window.github_data['owner']['avatar_url']
 
           var line1 = "INGREDIENTS: " + "language " + lang + "; license: " + license;
-          var line2 = "issues: " + issues + "; stars: " + stars + "; watchers: " + watchers;
+          var line2 = "issues: " + issues + "; stars ⭐️: " + stars + "; watchers 👀️: " + watchers;
           var line3 = "subscribers: " + subscribers + "; " + "size: " + size + ";";
           var line4 = "owner: " + owner + ";";
 
