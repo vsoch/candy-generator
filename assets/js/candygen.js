@@ -15,7 +15,7 @@ class CandyGen {
     };
 
     // The constructor is called when we create a Candy Gen object
-    constructor(candy, width, height, divid, resetButton, formButton) {
+    constructor(candy, width, height, divid, resetButton, formButton, githubButton) {
 
         // Choose a random template to start with
         this.width = width || 800;
@@ -30,6 +30,7 @@ class CandyGen {
         this.resetButton = resetButton || "#resetCandy"
         this.textureButton = resetButton || "#candy-texture"
         this.formButton = formButton || "#candy-form"
+        this.githubButton = githubButton || "#github-button"
 
         // Variables for the svg, and candy image svg within
         this.reset();
@@ -44,6 +45,7 @@ class CandyGen {
         $(this.resetButton).on("click", {client: this}, this.reset);
         $(this.textureButton).on("change", {client: this}, this.changeTexture);
         $(this.formButton).on("change", {client: this}, this.changeForm);
+        $(this.githubButton).on("click", {client: this}, this.loadGitHub);
      
     }
 
@@ -80,8 +82,47 @@ class CandyGen {
     changeForm(event) {
         var client = event.data.client
         var form = $(this).val();
-        client.chooseTemplate(form, client)
-        client.setTemplate()    
+        client.chooseTemplate(form, client);
+        client.setTemplate();    
+        client.setFacts();
+    }
+
+    loadGitHub(event) {
+        var client = event.data.client
+        var uri = $("#github-uri").val();
+        if (uri == "") {
+            $.notify("Please enter the name of a repository!", "warning");
+            return
+        }
+        // Split into org/repo
+        var parts = uri.split("/")
+        if (parts.length != 2) {
+            $.notify("The repository should be in the format ORG/NAME", "warning");        
+            return
+        }
+
+        // Otherwise, make the GitHub call
+        fetch('https://api.github.com/repos/' + uri)
+		.then(response => response.json())
+		.then(data => {
+                   console.log(data);
+                   window.github_data = data;		
+		})
+		.catch(error => console.error(error));
+
+        // timeout to see data - yeah yeah I know, imperfect :)
+        setTimeout(function(){ client.renderGitHub(client) }, 500);        
+    }
+     
+    // Whatever GitHub data we have, render it
+    // TODO check if data is already there and allow to load
+    // TODO add year so the candy is dated
+    // TODO add save button
+    // TODO write post on uptodate
+    // TODO write post / second interface on this generator
+    renderGitHub(client) {
+        client.setFacts()
+        console.log(window.github_data);
     }
        
     // Actually set a texture
@@ -218,7 +259,6 @@ class CandyGen {
     // set the chosen template
     setTemplate() {
 
-        console.log(this.items.choices['template'])
         var choice = this.items.choices['template']
         d3.select(this.divid).html("");
 
@@ -247,14 +287,121 @@ class CandyGen {
                   }
               })
 
-         // TODO: this will load a repository name for a candy
-         // TODO: "nutrition facts" based on repository metadata
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
            .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1]; })
            .attr("fill", "white")
            .attr("font-size", 26)
-           .text(function(d) { return "HAPPY HALLOWEEN!"; });
+           .attr("id", "candy-title")
+           .text(function(d) { return "Happy Halloween!"; });    
+
+         this.group.append("text")
+           .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
+           .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 20; })
+           .attr("fill", "yellow")
+           .attr("font-size", 14)
+           .classed('nutrition-box', true)
+           .style('display', 'none')
+           .attr("id", "candy-subtitle")
+           .text("");    
+
+         // Nutrition facts
+         this.group.append('rect')
+          .attr('width', '300')
+          .attr('height', '60')
+          .attr('x', function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]})
+          .attr('y', function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 60})
+          .attr('fill', 'rgba(0,0,0,0)')
+          .attr('stroke', 'white')
+          .attr('stroke-dasharray', '10,5')
+          .classed('nutrition-box', true)
+          .style('display', 'none')
+          .attr('stroke-linecap', 'butt')
+
+         // Add text that says NUTRITION FACTS
+         this.group.append("text")
+           .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
+           .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 55; })
+           .attr("fill", "white")
+           .attr("font-size", 12)
+           .attr("font-family", "Arial")
+           .classed('nutrition-box', true)
+           .style('display', 'none')
+           .text("NUTRITION FACTS");    
+
+         // Hidden spot for eventual avatar image
+         this.group.append("svg:image")
+           .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 400; })
+           .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 10; })
+           .attr('width', 100)
+           .attr('height', 100)
+           .classed('nutrition-box', true)
+           .attr('id', 'avatar-image')
+           .attr("xlink:href", "")
+
+         var start = 75;
+         for (var i=1; i<=4; i++) {
+           this.group.append("text")
+             .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 5; })
+             .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + start; })
+             .attr("fill", "white")
+             .attr("font-size", 10)
+             .attr("font-family", "Arial")
+             .classed('nutrition-box', true)
+             .attr('id', 'nutrition-facts' + i)
+             .style('display', 'none')
+             .text("");    
+           start += 10;
+         }
+    }
+
+    // Set title for the candy
+    setTitle(title) {
+        if (title != null) {
+           $("#candy-title").text(title);     
+        }
+    }
+
+    setSubtitle(subtitle) {
+        if (subtitle != null) {
+           if (subtitle.length > 60) {
+               subtitle = subtitle.slice(0, 59) + "..."
+           }
+           $("#candy-subtitle").text(subtitle);     
+        }
+    }
+
+    // Set nutrition facts in the box
+    setFacts() {
+        if (window.github_data != null) {
+
+          this.setTitle(window.github_data['full_name'])
+          this.setSubtitle(window.github_data['description'])
+
+          var lang = window.github_data['language']
+          var license = window.github_data['license']['name']
+          var issues = window.github_data['open_issues']
+          var stars = window.github_data['stargazers_count']
+          var subscribers = window.github_data['subscribers_count']
+          var watchers = window.github_data['watchers_count']
+          var size = window.github_data['size']
+          var owner = window.github_data['owner']['login']
+          var logo = window.github_data['owner']['avatar_url']
+
+          var line1 = "INGREDIENTS: " + "language " + lang + "; license: " + license;
+          var line2 = "issues: " + issues + "; stars: " + stars + "; watchers: " + watchers;
+          var line3 = "subscribers: " + subscribers + "; " + "size: " + size + ";";
+          var line4 = "owner: " + owner + ";";
+
+          $("#nutrition-facts1").text(line1);          
+          $("#nutrition-facts2").text(line2);          
+          $("#nutrition-facts3").text(line3);          
+          $("#nutrition-facts4").text(line4); 
+          $("#avatar-image").attr("xlink:href", logo);
+          $("#avatar-image").attr("src", logo);
+          $("#avatar-image").attr("href", logo);
+          $(".nutrition-box").show();
+        }
     }
 
     // Reset Choices and Chandy
@@ -264,8 +411,9 @@ class CandyGen {
         this.svg = null;
         this.img = null;
         client.items.choices = {"texture": "solid", "texture_color": "green", "color": "purple"};
-        client.chooseTemplate("hersheys");
+        client.chooseTemplate("crunch");
         client.setTemplate();
+        client.setFacts();
     }
 }
 
