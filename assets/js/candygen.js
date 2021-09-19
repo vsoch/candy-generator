@@ -115,7 +115,6 @@ class CandyGen {
     }
      
     // Whatever GitHub data we have, render it
-    // TODO check if data is already there and allow to load
     // TODO add year so the candy is dated
     // TODO add save button
     // TODO write post on uptodate
@@ -294,6 +293,17 @@ class CandyGen {
            .attr("font-size", 26)
            .attr("id", "candy-title")
            .text(function(d) { return "Happy Halloween!"; });    
+
+         // Date the candy for the right year
+         this.group.append("text")
+           .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 500; })
+           .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] - 10; })
+           .attr("fill", "yellow")
+           .attr("font-size", 16)
+           .text(function(d) { 
+             var date = new Date();
+             return date.getFullYear()   
+           });    
 
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
