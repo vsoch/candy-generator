@@ -350,7 +350,7 @@ class CandyGen {
            .attr("xlink:href", "")
 
          var start = 75;
-         for (var i=1; i<=4; i++) {
+         for (var i=1; i<=5; i++) {
            this.group.append("text")
              .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 5; })
              .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + start; })
@@ -402,15 +402,17 @@ class CandyGen {
           var owner = window.github_data['owner']['login']
           var logo = window.github_data['owner']['avatar_url']
 
-          var line1 = "INGREDIENTS: " + "language " + lang + "; license: " + license;
-          var line2 = "issues: " + issues + "; stars ⭐️: " + stars + "; watchers 👀️: " + watchers;
-          var line3 = "subscribers: " + subscribers + "; " + "size: " + size + ";";
-          var line4 = "owner: " + owner + ";";
+          var line1 = "INGREDIENTS: " + "language " + lang + ";";
+          var line2 = "license: " + license + ";";
+          var line3 = "issues: " + issues + "; stars ⭐️: " + stars + "; watchers 👀️: " + watchers;
+          var line4 = "subscribers: " + subscribers + "; " + "size: " + size + ";";
+          var line5 = "owner: " + owner + ";";
 
           $("#nutrition-facts1").text(line1);          
           $("#nutrition-facts2").text(line2);          
           $("#nutrition-facts3").text(line3);          
           $("#nutrition-facts4").text(line4); 
+          $("#nutrition-facts5").text(line5); 
           $("#avatar-image").attr("xlink:href", logo);
           $("#avatar-image").attr("src", logo);
           $("#avatar-image").attr("href", logo);
