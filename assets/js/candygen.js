@@ -152,6 +152,7 @@ class CandyGen {
         } else if (texture == "checkers") {
            var t = textures.lines()
                    .orientation("3/8", "7/8")
+                   .size(40)
                    .stroke(client.items.choices["texture_color"])
                    .background(client.items.choices['color']);
            client.svg.call(t);
@@ -159,6 +160,7 @@ class CandyGen {
 
         } else if (texture == "circles") {
            var t = textures.circles()
+                   .size(40)
                    .fill(client.items.choices["texture_color"])
                    .background(client.items.choices['color']);
            client.svg.call(t);
@@ -166,6 +168,7 @@ class CandyGen {
 
         } else if (texture == "patch") {
            var t = textures.circles()
+                   .size(35)
                    .complement()
                    .fill(client.items.choices["texture_color"])
                    .background(client.items.choices['color']);
@@ -175,7 +178,7 @@ class CandyGen {
         } else if (texture == "honeycomb") {
            var t = textures.paths()
                    .d("hexagons")
-                   .size(8)
+                   .size(14)
                    .strokeWidth(2)
                    .background(client.items.choices['color'])
                    .stroke(client.items.choices["texture_color"]);
@@ -187,6 +190,7 @@ class CandyGen {
                    .d(texture)
                    .lighter()
                    .thicker()  
+                   .size(40)
                    .strokeWidth(2)
                    .background(client.items.choices['color'])
                    .stroke(client.items.choices["texture_color"]);
@@ -198,6 +202,7 @@ class CandyGen {
                    .d("waves")
                    .thicker()
                    .strokeWidth(2)
+                   .size(40)
                    .background(client.items.choices['color'])
                    .stroke(client.items.choices["texture_color"]); 
            client.svg.call(t);
@@ -208,6 +213,7 @@ class CandyGen {
                    .d("nylon")
                    .lighter()
                    .strokeWidth(2)
+                   .size(40)
                    .shapeRendering("crispEdges")
                    .background(client.items.choices['color'])
                    .stroke(client.items.choices["texture_color"]); 
@@ -219,6 +225,7 @@ class CandyGen {
                    .d("squares")
                    .thicker()
                    .strokeWidth(2)
+                   .size(40)
                    .background(client.items.choices['color'])
                    .stroke(client.items.choices["texture_color"]); 
            client.svg.call(t);
