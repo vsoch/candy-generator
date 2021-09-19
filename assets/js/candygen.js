@@ -46,6 +46,7 @@ class CandyGen {
         $(this.textureButton).on("change", {client: this}, this.changeTexture);
         $(this.formButton).on("change", {client: this}, this.changeForm);
         $(this.githubButton).on("click", {client: this}, this.loadGitHub);
+        $(this.saveButton).on("click", {client: this}, this.saveSVG);
      
     }
 
@@ -115,15 +116,25 @@ class CandyGen {
     }
      
     // Whatever GitHub data we have, render it
-    // TODO add year so the candy is dated
-    // TODO add save button
-    // TODO write post on uptodate
-    // TODO write post / second interface on this generator
     renderGitHub(client) {
         client.setFacts()
         console.log(window.github_data);
     }
-       
+
+    // Update font color
+    setFont(client) {
+        var color = client.items.choices["font_color"]
+        client.setTemplate();
+        client.setFacts();
+    }
+
+    // Update title color
+    setTitleColor(client) {
+        var color = client.items.choices["title_color"]
+        client.setTemplate();
+        client.setFacts();
+    }
+
     // Actually set a texture
     setTexture(texture, client) {
 
@@ -256,10 +267,26 @@ class CandyGen {
             client.setTexture(client.items.choices["texture"], client)
         }
 
+        function updateFont (event) {
+            console.log("Updating font color to " + event.target.value);
+            client.items.choices["font_color"] = event.target.value;
+            client.setFont(client)
+        }
+
+        function updateTitleColor (event) {
+            console.log("Updating title color to " + event.target.value);
+            client.items.choices["title_color"] = event.target.value;
+            client.setTitleColor(client)
+        }
+
         this.colorChooser = document.querySelector("#candy-color");
         this.colorChooser.addEventListener("change", updateColor, false);        
         this.textureColorChooser = document.querySelector("#texture-color");
         this.textureColorChooser.addEventListener("change", updateTexture, false);        
+        this.fontColorChooser = document.querySelector("#font-color");
+        this.fontColorChooser.addEventListener("change", updateFont, false);        
+        this.titleColorChooser = document.querySelector("#title-color");
+        this.titleColorChooser.addEventListener("change", updateTitleColor, false);        
     }
 
     // set the chosen template
@@ -267,8 +294,10 @@ class CandyGen {
 
         var choice = this.items.choices['template']
         d3.select(this.divid).html("");
+        var client = this;
 
         this.svg = d3.select(this.divid).append("svg")
+          .attr("id", "svg")
           .attr("width", this.width)
           .attr("height", this.height);
 
@@ -296,7 +325,7 @@ class CandyGen {
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
            .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1]; })
-           .attr("fill", "white")
+           .attr("fill", client.items.choices['title_color'])
            .attr("font-size", 26)
            .attr("id", "candy-title")
            .text(function(d) { return "Happy Halloween!"; });    
@@ -329,7 +358,7 @@ class CandyGen {
           .attr('x', function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]})
           .attr('y', function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 60})
           .attr('fill', 'rgba(0,0,0,0)')
-          .attr('stroke', 'white')
+          .attr('stroke', client.items.choices['font_color'])
           .attr('stroke-dasharray', '10,5')
           .classed('nutrition-box', true)
           .style('display', 'none')
@@ -339,7 +368,7 @@ class CandyGen {
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
            .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 55; })
-           .attr("fill", "white")
+           .attr("fill", client.items.choices['font_color'])
            .attr("font-size", 12)
            .attr("font-family", "Arial")
            .classed('nutrition-box', true)
@@ -361,7 +390,7 @@ class CandyGen {
            this.group.append("text")
              .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 5; })
              .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + start; })
-             .attr("fill", "white")
+             .attr("fill", client.items.choices['font_color'])
              .attr("font-size", 10)
              .attr("font-family", "Arial")
              .classed('nutrition-box', true)
@@ -433,7 +462,7 @@ class CandyGen {
         if (event != null) {client = event.data.client} else {client = this}
         this.svg = null;
         this.img = null;
-        client.items.choices = {"texture": "solid", "texture_color": "green", "color": "purple"};
+        client.items.choices = {"texture": "solid", "texture_color": "green", "color": "purple", "font_color": "white", "title_color": "white"};
         client.chooseTemplate("crunch");
         client.setTemplate();
         client.setFacts();
@@ -450,3 +479,4 @@ function getTextLocation (selection, xoffset, yoffset) {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
