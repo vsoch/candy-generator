@@ -3,7 +3,27 @@
 Welcome to the Candy Generator! This is a tool that will allow you to create
 and save your own repository candy, to truly celebrate an Open Source Halloween! 
 
-🚧️ **under development** 🚧️
+![assets/spack-candy.png](assets/spack-candy.png)
+
+Instructions:
+
+ 1. Go to the [interface](https://vsoch.github.io/candy-generator/)
+ 2. Load your repository by entering the name "org/name" under "Load A GitHub Repository"
+ 3. Customize the candy form, texture, and colors!
+ 4. Save a screenshot and add to your Halloween basket!
+
+⭐️ [Browse to the interface!](https://vsoch.github.io/candy-generator/) ⭐️
+
+I think it would be cool to have a standard filename to add to a repository to indicate
+that a user can go trick or treating there, and then be easily able to load an entire interface
+of these images. This would be easier with:
+
+1. Adding a save to png button
+2. Creating an interface that can easily find and render the PNGs
+3. Possibly having an action that can generate a candy automatically
+
+However, I think I like the candies better when the repository owner designs on their own, so
+I'm not sure if the above is overkill.
 
 ## Frequently Asked Questions
 
