@@ -389,7 +389,11 @@ class CandyGen {
           this.setSubtitle(window.github_data['description'])
 
           var lang = window.github_data['language']
-          var license = window.github_data['license']['name']
+
+          var license = "unknown";
+          if (window.github_data.license != null) {
+              license = window.github_data['license']['name']
+          }
           var issues = window.github_data['open_issues']
           var stars = window.github_data['stargazers_count']
           var subscribers = window.github_data['subscribers_count']
