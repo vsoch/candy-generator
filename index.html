@@ -10,6 +10,7 @@
     <link rel=icon href="assets/favicon.ico">
     <!-- D3 is required for the candy generator -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
 </head>
 
 <body>
@@ -27,13 +28,40 @@
                 <!-- Candy selector -->
                 <div class="form-group">
                   <label>Candy Form</label>
-                  <select style="width: 200px; margin-left: 25px;" class="form-control" id="candy-form"></select>
+                  <select autocomplete="off" style="width: 200px; margin-left: 25px;" class="form-control" id="candy-form"></select>
+                </div>
+                <hr> 
+
+                <!-- Texture selector -->
+                <div class="form-group">
+                  <label>Candy Texture</label>
+                  <select autocomplete="off" style="width: 200px; margin-left: 25px;" class="form-control" id="candy-texture">
+                    <option value="caps">carrots</option>
+                    <option value="crosses">crosses</option>
+                    <option value="checkers">checkers</option>
+                    <option value="circles">circles</option>
+                    <option value="honeycomb">honeycomb</option>
+                    <option value="lines">lines</option>
+                    <option value="nylon">nylon</option>
+                    <option value="patch">patch</option>
+                    <option value="solid" selected="true">solid</option>
+                    <option value="squares">squares</option>
+                    <option value="waves">waves</option>
+                    <option value="woven">woven</option>
+                  </select>
                 </div>
                 <hr> 
                               
-                <!-- Color chooser -->
-                <input type="color" id="candy-color" name="candy-color" value="#e66465">
-                <label for="head">Candy Color</label>
+                <!-- Color choosers -->
+                <div class="form-group" style="float:left; padding-left:25px">
+                  <input type="color" id="candy-color" name="candy-color" value="#800080">
+                  <label for="head">Candy Color</label>
+                </div>
+                <hr>
+                <div class="form-group" style="float:left; padding-left:25px">
+                  <input type="color" id="texture-color" name="texture-color" value="#007f00">
+                  <label for="head">Texture Color</label>
+                </div>
             </div>
             <button class="cardFunction" id="resetCandy">RESET</button>
 
