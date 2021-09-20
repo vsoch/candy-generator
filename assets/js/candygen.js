@@ -125,6 +125,7 @@ class CandyGen {
     setFont(client) {
         var color = client.items.choices["font_color"]
         client.setTemplate();
+        client.setTexture(null, client);
         client.setFacts();
     }
 
@@ -132,6 +133,7 @@ class CandyGen {
     setTitleColor(client) {
         var color = client.items.choices["title_color"]
         client.setTemplate();
+        client.setTexture(null, client);
         client.setFacts();
     }
 
