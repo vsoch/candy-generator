@@ -336,18 +336,29 @@ class CandyGen {
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 500; })
            .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] - 10; })
-           .attr("fill", "yellow")
+           .attr("fill", client.items.choices['font_color'])
            .attr("font-size", 16)
            .text(function(d) { 
              var date = new Date();
              return date.getFullYear()   
            });    
 
+         // Reference to repository
+         this.group.append("text")
+           .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0] + 350; })
+           .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 140; })
+           .attr("fill", client.items.choices['font_color'])
+           .attr("font-size", 10)
+           .attr("font-style", "italic")
+           .attr("opacity", "0.3")
+           .attr("font-family", "Arial")
+           .text("Created by https://vsoch.github.io/candy-generator");    
+
          this.group.append("text")
            .attr("x", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[0]; })
            .attr("y", function(d) { var center = getTextLocation(d3.select("#candy-path"), d.xoffset, d.yoffset); return center[1] + 20; })
            .attr("fill", "yellow")
-           .attr("font-size", 14)
+           .attr("font-size", 14)           
            .classed('nutrition-box', true)
            .style('display', 'none')
            .attr("id", "candy-subtitle")
