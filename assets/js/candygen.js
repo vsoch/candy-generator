@@ -478,7 +478,7 @@ class CandyGen {
         if (event != null) {client = event.data.client} else {client = this}
         this.svg = null;
         this.img = null;
-        client.items.choices = {"texture": "solid", "texture_color": "green", "color": "purple", "font_color": "white", "title_color": "white"};
+        client.items.choices = {"texture": "solid", "texture_color": "green", "color": "#482f1e", "font_color": "white", "title_color": "white"};
         client.chooseTemplate("crunch");
         client.setTemplate();
         client.setFacts();
