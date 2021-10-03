@@ -86,6 +86,9 @@ class CandyGen {
         client.chooseTemplate(form, client);
         client.setTemplate();    
         client.setFacts();
+        client.setTexture(null, client);
+        client.setFont(client);
+        client.setTitleColor(client);
     }
 
     loadGitHub(event) {
